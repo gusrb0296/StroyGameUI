@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
+
+    FadeInOut FadeInOut { get; set; }
 
     public static GameManager Instance
     {
@@ -35,6 +38,8 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+
+        FadeInOut = GetComponent<FadeInOut>();
     }
 
     void Start()
@@ -44,5 +49,20 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void NextSceneString()
+    {
+        FadeInOut.StartFadeOut();
+        StartCoroutine(SceneLoad());
+
+    }
+
+    IEnumerator SceneLoad()
+    {
+        float waitTime = FadeInOut.GetFadeTime();
+        yield return new WaitForSeconds(waitTime);
+        SceneManager.LoadScene("MainScene");
+        FadeInOut.StartFadeIn();
     }
 }
