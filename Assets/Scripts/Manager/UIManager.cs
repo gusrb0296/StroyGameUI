@@ -8,7 +8,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI talkText;
     [SerializeField] private GameObject _chatWindow;
 
+    public TalkManager TalkManager;
+    public GameObject ScanObject;
+
     private bool isAction;
+    public int talkIndex;
 
     public bool GetIsAction()
     {
@@ -21,15 +25,29 @@ public class UIManager : MonoBehaviour
 
     public void Action(GameObject scanObject)
     {
-        if (isAction)
+        ScanObject = scanObject;
+        ObjectData objData = scanObject.GetComponent<ObjectData>();
+        Talk(objData.id, objData.isNPC);
+
+        _chatWindow.SetActive(isAction);
+    }
+
+    void Talk(int id, bool isNPC)
+    {
+        string talkData = TalkManager.GetTalk(id, talkIndex);
+
+        if(talkData == null)
         {
             isAction = false;
+            return;
         }
+
+        if (isNPC)
+            talkText.text = talkData;
         else
-        {
-            isAction = true;
-            talkText.text = "이것의 이름은 " + scanObject.name + "이다.";
-        }
-        _chatWindow.SetActive(isAction);
+            talkText.text = talkData;
+
+        isAction = true;
+        talkIndex++;
     }
 }
