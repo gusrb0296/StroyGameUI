@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -11,12 +12,14 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private GameObject _scanObject;
+    private UIManager _UImanager;
 
     private void Awake()
     {
         _controller = GetComponent<PlayerController>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponentInChildren<Animator>();
+        _UImanager = FindObjectOfType<UIManager>();
     }
 
     private void Start()
@@ -29,13 +32,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && _scanObject != null)
         {
             Debug.Log("This is " + _scanObject.name);
+            _UImanager.Action(_scanObject);
         }
     }
 
     private void FixedUpdate()
     {
         ApplyMovment(_movementDirection);
-        Debug.DrawRay(_rigidbody.position, _dirVec * 1.5f, new Color(1, 0, 0));
         RaycastHit2D rayHit = Physics2D.Raycast(_rigidbody.position, _dirVec, 1.5f, LayerMask.GetMask("Object"));
 
         if(rayHit.collider != null)
@@ -50,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move(Vector2 direction)
     {
+        bool isactions = _UImanager.GetIsAction();
+        direction = isactions ? Vector2.zero : direction;
         _movementDirection = direction;
 
         if(direction.magnitude != 0 )
