@@ -8,11 +8,13 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 _movementDirection = Vector2.zero;
     private Rigidbody2D _rigidbody;
+    private Animator _animator;
 
     private void Awake()
     {
         _controller = GetComponent<PlayerController>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -28,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     private void Move(Vector2 direction)
     {
         _movementDirection = direction;
+        _animator.SetFloat("VerticalFloat", direction.y);
+        _animator.SetFloat("HorizontalFloat", direction.x);
     }
 
     private void ApplyMovment(Vector2 direction)
