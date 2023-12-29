@@ -4,15 +4,42 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private PlayerController _controller;
+
+    private Vector2 _dirVec = Vector2.zero;
+
+    private void Awake()
     {
-        
+        _controller = GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        _controller.OnMoveEvent += Direction;
     }
+
+    private void FixedUpdate()
+    {
+        //ApplyVector(dirVec);
+    }
+
+    private void Direction(Vector2 direction)
+    {
+       // _dirVec = 
+    }
+
+    //private void Move(Vector2 direction)
+    //{
+    //    _movementDirection = direction;
+    //    _animator.SetFloat("VerticalFloat", direction.y);
+    //    _animator.SetFloat("HorizontalFloat", direction.x);
+    //}
+
+    //private void ApplyVector(Vector2 direction)
+    //{
+    //    dirVec
+
+    //    _rigidbody.velocity = direction;
+    //}
+
 }
