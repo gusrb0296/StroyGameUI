@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ObjectData : MonoBehaviour
 {
-    public int id { get; set; }
-    public bool isNPC { get; set; }
-
-
+    public int id;
+    public bool isNPC;
 }

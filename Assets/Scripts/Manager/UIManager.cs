@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     public GameObject ScanObject;
 
     private bool isAction;
-    public int talkIndex;
+    public int talkIndex = 0;
 
     public bool GetIsAction()
     {
@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour
         if(talkData == null)
         {
             isAction = false;
+            talkIndex = 0;
             return;
         }
 
