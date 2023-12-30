@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class UIManager : MonoBehaviour
 
     public TalkManager TalkManager;
     public GameObject ScanObject;
+    public Image PortratiImage;
 
     private bool isAction;
     public int talkIndex = 0;
@@ -44,9 +46,18 @@ public class UIManager : MonoBehaviour
         }
 
         if (isNPC)
-            talkText.text = talkData;
+        {
+            talkText.text = talkData.Split('/')[0];
+
+            PortratiImage.sprite = TalkManager.GetPortrait(id, int.Parse(talkData.Split('/')[1]));
+            PortratiImage.color = new Color(1, 1, 1, 1);
+        }
+
         else
+        {
             talkText.text = talkData;
+            PortratiImage.color = new Color(1, 1, 1, 0);
+        }
 
         isAction = true;
         talkIndex++;
